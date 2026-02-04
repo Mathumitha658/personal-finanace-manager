@@ -1,0 +1,15 @@
+body {
+  font-family: Arial, sans-serif;
+}
+body {
+  background-color: #f4f6f8;
+}
+
+.card {
+  border-radius: 12px;
+}
+#expenseChart {
+  max-width: 100%;
+  max-height: 250px;
+}
+

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Personal Finance Manager</title>
+
+  <!-- Bootstrap -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/Style.css">
+</head>
+
+<body class="bg-light">
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container">
+    <span class="navbar-brand mb-0 h1">Personal Finance Manager</span>
+  </div>
+</nav>
+
+<div class="container-fluid mt-4">
+  <div class="row">
+
+    <!-- LEFT SIDE -->
+    <div class="col-md-4">
+
+      <!-- Dashboard -->
+      <div class="row g-3 mb-3">
+
+        <div class="col-12">
+          <div class="card text-center shadow">
+            <div class="card-body">
+              <h5>Total Income</h5>
+              <h3 class="text-success">₹ <span id="totalIncome">0</span></h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="card text-center shadow">
+            <div class="card-body">
+              <h5>Total Expense</h5>
+              <h3 class="text-danger">₹ <span id="totalExpense">0</span></h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="card text-center shadow">
+            <div class="card-body">
+              <h5>Balance</h5>
+              <h3 class="text-primary">₹ <span id="balance">0</span></h3>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Set Income -->
+      <div class="card shadow mb-3">
+        <div class="card-body">
+          <h5>Set Income</h5>
+          <input type="number" id="income" class="form-control mb-2" placeholder="Enter income">
+          <button id="setIncome" class="btn btn-success w-100">Set Income</button>
+        </div>
+      </div>
+
+      <!-- Add Expense -->
+      <div class="card shadow">
+        <div class="card-body">
+          <h5>Add Expense</h5>
+
+          <form id="expenseForm">
+            <input type="number" id="amount" class="form-control mb-2" placeholder="Amount" required>
+
+            <select id="category" class="form-select mb-2" required>
+              <option value="">Select Category</option>
+              <option>Food</option>
+              <option>Travel</option>
+              <option>Rent</option>
+              <option>Shopping</option>
+              <option>Others</option>
+            </select>
+
+            <input type="date" id="expenseDate" class="form-control mb-2" required>
+
+            <button class="btn btn-primary w-100">Add Expense</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="col-md-8">
+
+      <!-- Expense List -->
+      <div class="card shadow mb-3">
+        <div class="card-body">
+          <h5>Expense List</h5>
+
+          <table class="table table-bordered">
+            <thead class="table-dark">
+              <tr>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="expenseList"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Category Summary + Pie Chart -->
+      <div class="card shadow">
+        <div class="card-body">
+          <h5>Category Wise Expense</h5>
+
+          <ul id="categoryList" class="list-group mb-3"></ul>
+
+          <canvas id="expenseChart" height="200"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/Script.js"></script>
+
+</body>
+</html>
