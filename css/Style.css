@@ -1,15 +1,90 @@
-body {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
+
 body {
-  background-color: #f4f6f8;
+  background: linear-gradient(135deg, #2f4f88, #4e73df);
+  height: 100vh;
 }
 
+/* Navbar */
+.navbar {
+  background: #1c3566;
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.login-btn {
+  background: white;
+  color: #1c3566;
+  padding: 8px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-btn:hover {
+  background: #ddd;
+}
+
+/* Center container */
+.container {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card */
 .card {
+  background: white;
+  padding: 40px;
+  width: 350px;
   border-radius: 12px;
-}
-#expenseChart {
-  max-width: 100%;
-  max-height: 250px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  text-align: center;
 }
 
+.card h2 {
+  margin-bottom: 20px;
+  color: #2f4f88;
+}
+
+.card input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.card button {
+  width: 100%;
+  padding: 10px;
+  background: #2f6fdd;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.card button:hover {
+  background: #1e4fa8;
+}
+
+.card p {
+  margin-top: 15px;
+}

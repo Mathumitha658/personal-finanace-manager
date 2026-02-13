@@ -1,142 +1,318 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Personal Finance Manager</title>
+<title>Personal Finance Manager</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Bootstrap -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  >
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#2f4f88,#4e73df);
+}
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="css/Style.css">
+/* CENTER BOX */
+.center-box{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.box{
+    background:white;
+    padding:50px;
+    width:400px;
+    text-align:center;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    position:relative;
+}
+
+button{
+    padding:10px;
+    margin-top:10px;
+    width:100%;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    color:white;
+    background:#2f6fdd;
+    font-size:15px;
+}
+
+button:hover{
+    background:#1e4fa8;
+}
+
+input{
+    width:100%;
+    padding:8px;
+    margin:8px 0;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+
+/* BACK ICON */
+.back-icon{
+    position:absolute;
+    top:15px;
+    left:15px;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* DASHBOARD */
+.dashboard{
+    display:none;
+    padding:20px;
+    background:#f2f2f2;
+    min-height:100vh;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:10px;
+}
+
+.green h2{color:green;}
+.red h2{color:red;}
+.blue h2{color:blue;}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:8px;
+    border-bottom:1px solid #ddd;
+}
+
+th{
+    background:#222;
+    color:white;
+}
+
+#pieChart{
+    height:300px !important;
+}
+.link{
+    color:#2f6fdd;
+    cursor:pointer;
+    font-size:14px;
+}
+</style>
 </head>
 
-<body class="bg-light">
+<body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-dark bg-dark">
-  <div class="container">
-    <span class="navbar-brand mb-0 h1">Personal Finance Manager</span>
-  </div>
-</nav>
-
-<div class="container-fluid mt-4">
-  <div class="row">
-
-    <!-- LEFT SIDE -->
-    <div class="col-md-4">
-
-      <!-- Dashboard -->
-      <div class="row g-3 mb-3">
-
-        <div class="col-12">
-          <div class="card text-center shadow">
-            <div class="card-body">
-              <h5>Total Income</h5>
-              <h3 class="text-success">₹ <span id="totalIncome">0</span></h3>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="card text-center shadow">
-            <div class="card-body">
-              <h5>Total Expense</h5>
-              <h3 class="text-danger">₹ <span id="totalExpense">0</span></h3>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12">
-          <div class="card text-center shadow">
-            <div class="card-body">
-              <h5>Balance</h5>
-              <h3 class="text-primary">₹ <span id="balance">0</span></h3>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Set Income -->
-      <div class="card shadow mb-3">
-        <div class="card-body">
-          <h5>Set Income</h5>
-          <input type="number" id="income" class="form-control mb-2" placeholder="Enter income">
-          <button id="setIncome" class="btn btn-success w-100">Set Income</button>
-        </div>
-      </div>
-
-      <!-- Add Expense -->
-      <div class="card shadow">
-        <div class="card-body">
-          <h5>Add Expense</h5>
-
-          <form id="expenseForm">
-            <input type="number" id="amount" class="form-control mb-2" placeholder="Amount" required>
-
-            <select id="category" class="form-select mb-2" required>
-              <option value="">Select Category</option>
-              <option>Food</option>
-              <option>Travel</option>
-              <option>Rent</option>
-              <option>Shopping</option>
-              <option>Others</option>
-            </select>
-
-            <input type="date" id="expenseDate" class="form-control mb-2" required>
-
-            <button class="btn btn-primary w-100">Add Expense</button>
-          </form>
-        </div>
-      </div>
-
+<!-- HOME -->
+<div id="homePage" class="center-box">
+    <div class="box">
+        <h1>Personal Finance Manager 💰</h1>
+        <p>Manage your money smartly</p>
+        <button onclick="goDashboard()">Click Here</button>
+        <button onclick="goLogin()">Login</button>
     </div>
-
-    <!-- RIGHT SIDE -->
-    <div class="col-md-8">
-
-      <!-- Expense List -->
-      <div class="card shadow mb-3">
-        <div class="card-body">
-          <h5>Expense List</h5>
-
-          <table class="table table-bordered">
-            <thead class="table-dark">
-              <tr>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="expenseList"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Category Summary + Pie Chart -->
-      <div class="card shadow">
-        <div class="card-body">
-          <h5>Category Wise Expense</h5>
-
-          <ul id="categoryList" class="list-group mb-3"></ul>
-
-          <canvas id="expenseChart" height="200"></canvas>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
 </div>
 
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="js/Script.js"></script>
+<!-- LOGIN -->
+<div id="loginPage" class="center-box" style="display:none;">
+    <div class="box">
+        <span class="back-icon" onclick="goHome()">←</span>
+        <h2>Login</h2>
+        <input type="text" placeholder="Username" id="loginUsername">
+        <input type="password" placeholder="Password" id="loginPassword">
+        <button onclick="loginUser()">Login</button>
+        <p class="link" onclick="goRegister()">Go to Register</p>
+    </div>
+</div>
+
+<!-- REGISTER -->
+<div id="registerPage" class="center-box" style="display:none;">
+    <div class="box">
+        <span class="back-icon" onclick="goLogin()">←</span>
+        <h2>Register</h2>
+        <input type="text" placeholder="Username" id="registerUsername">
+        <input type="password" placeholder="Password" id="registerPassword">
+        <input type="password" placeholder="Confirm Password" id="registerConfirm">
+        <button onclick="registerUser()">Register</button>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboardPage" class="dashboard">
+
+    <span class="back-icon" onclick="goHome()" style="position:relative;">← Back</span>
+
+    <div class="card green">
+        <h3>Total Income</h3>
+        <h2>₹ <span id="totalIncome">0</span></h2>
+    </div>
+
+    <div class="card red">
+        <h3>Total Expense</h3>
+        <h2>₹ <span id="totalExpense">0</span></h2>
+    </div>
+
+    <div class="card blue">
+        <h3>Balance</h3>
+        <h2>₹ <span id="balance">0</span></h2>
+    </div>
+
+    <div class="card">
+        <h3>Set Income</h3>
+        <input type="number" id="incomeInput" placeholder="Enter Income">
+        <button onclick="setIncome()">Set Income</button>
+    </div>
+
+    <div class="card">
+        <h3>Add Expense</h3>
+        <input type="number" id="expenseAmount" placeholder="Amount">
+        <input type="text" id="expenseCategory" placeholder="Category">
+        <button onclick="addExpense()">Add Expense</button>
+    </div>
+
+    <div class="card">
+        <h3>Expense List</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="expenseTable"></tbody>
+        </table>
+
+        <canvas id="pieChart"></canvas>
+    </div>
+
+</div>
+
+<script>
+let totalIncome=0;
+let totalExpense=0;
+let categoryData={};
+let chart;
+
+/* NAVIGATION */
+function hideAll(){
+    document.getElementById("homePage").style.display="none";
+    document.getElementById("loginPage").style.display="none";
+    document.getElementById("registerPage").style.display="none";
+    document.getElementById("dashboardPage").style.display="none";
+}
+
+function goHome(){ hideAll(); document.getElementById("homePage").style.display="flex"; }
+function goLogin(){ hideAll(); document.getElementById("loginPage").style.display="flex"; }
+function goRegister(){ hideAll(); document.getElementById("registerPage").style.display="flex"; }
+
+function goDashboard(){
+    hideAll();
+    document.getElementById("dashboardPage").style.display="block";
+    if(!chart){ createChart(); }
+}
+
+/* REGISTER */
+function registerUser() {
+    let username = document.getElementById("registerUsername").value.trim();
+    let password = document.getElementById("registerPassword").value.trim();
+    let confirmPassword = document.getElementById("registerConfirm").value.trim();
+
+    if(username === "" || password === "" || confirmPassword === "") {
+        alert("Please fill all fields");
+        return;
+    }
+
+    if(password !== confirmPassword) {
+        alert("Passwords do not match");
+        return;
+    }
+
+    alert("Registered successfully! Please login.");
+
+    // Clear fields after registration
+    document.getElementById("registerUsername").value = "";
+    document.getElementById("registerPassword").value = "";
+    document.getElementById("registerConfirm").value = "";
+
+    goLogin(); // Go to login page
+}
+
+/* LOGIN */
+function loginUser() {
+    let username = document.getElementById("loginUsername").value.trim();
+    let password = document.getElementById("loginPassword").value.trim();
+
+    if(username === "" || password === "") {
+        alert("Please enter username and password");
+        return;
+    }
+
+    alert("Login successful!");
+    goDashboard();
+}
+
+/* INCOME */
+function setIncome(){
+    let income=parseInt(document.getElementById("incomeInput").value);
+    if(!isNaN(income)){
+        totalIncome=income;
+        document.getElementById("totalIncome").innerText=income;
+        updateBalance();
+    }
+}
+
+/* EXPENSE */
+function addExpense(){
+    let amount=parseFloat(document.getElementById("expenseAmount").value);
+    let category=document.getElementById("expenseCategory").value.trim();
+
+    if(!amount||category===""){ alert("Enter amount and category"); return; }
+
+    totalExpense+=amount;
+
+    if(categoryData[category]) categoryData[category]+=amount;
+    else categoryData[category]=amount;
+
+    let today=new Date().toISOString().split('T')[0];
+
+    document.getElementById("expenseTable").innerHTML+=
+    `<tr><td>₹ ${amount}</td><td>${category}</td><td>${today}</td></tr>`;
+
+    document.getElementById("totalExpense").innerText=totalExpense;
+    updateBalance();
+    updateChart();
+
+    document.getElementById("expenseAmount").value="";
+    document.getElementById("expenseCategory").value="";
+}
+
+function updateBalance(){
+    document.getElementById("balance").innerText=totalIncome-totalExpense;
+}
+
+/* PIE CHART */
+function createChart(){
+    let ctx=document.getElementById("pieChart").getContext("2d");
+    chart=new Chart(ctx,{
+        type:"pie",
+        data:{ labels:[], datasets:[{ data:[], backgroundColor:["#ff6384","#36a2eb","#ffce56","#4bc0c0","#9966ff","#ff9f40"] }]},
+        options:{ responsive:true, maintainAspectRatio:false }
+    });
+}
+
+function updateChart(){
+    chart.data.labels=Object.keys(categoryData);
+    chart.data.datasets[0].data=Object.values(categoryData);
+    chart.update();
+}
+</script>
 
 </body>
 </html>
